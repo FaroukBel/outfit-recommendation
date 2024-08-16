@@ -13,10 +13,6 @@ import matplotlib.image as mpimg
 #for save and load models
 import tensorflow as tf
 from tensorflow import keras                                        
-
-
-
-
 import numpy as np
 
 #for color classification
@@ -24,10 +20,9 @@ import colorsys
 import PIL.Image as Image
 import webcolors
 from scipy.spatial import KDTree
-from webcolors import (
-    hex_to_rgb
-)
-   
+
+from webcolors import  hex_to_rgb
+
     
 # load pre-trained models
 # please change them to your local path when load
@@ -70,22 +65,21 @@ foot_list = [['Casual Shoes', 'Flats', 'Flip Flops', 'Formal Shoes', 'Heels',
 
 def convert_rgb_to_names(rgb_tuple):
     """
-    This function translates rgb to their respective names in css3
-    is a helper function for the two below.
-    Input is a rgb tuple
-    Output is their corresponding name in css3
+    This function translates an RGB tuple to the closest color name in the CSS3 palette.
+    Input is an RGB tuple.
+    Output is the corresponding name in CSS3.
     """
-    # a dictionary of all the hex and their respective names in css3
-    css3_db = CSS3_HEX_TO_NAMES
+    # Use the CSS3 color name to hex dictionary
     names = []
     rgb_values = []
-    for color_hex, color_name in webcolors.names("css3").items():
+    for color_name, color_hex in webcolors.CSS3_NAMES_TO_HEX.items():
         names.append(color_name)
         rgb_values.append(hex_to_rgb(color_hex))
     
     kdt_db = KDTree(rgb_values)
     distance, index = kdt_db.query(rgb_tuple)
     return names[index]
+
 
 def get_cloth_color(image):
     """
